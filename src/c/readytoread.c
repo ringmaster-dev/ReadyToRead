@@ -87,23 +87,31 @@ static void prv_window_load(Window *window) {
   int16_t top_pad = (mid - row_h * 2) / 2;
   if (top_pad < 0) top_pad = 0;
 
-  int16_t battery_w = 52;  // enough for "+100%"
+  // Measure actual font dimensions instead of hardcoding
+  GFont label_font = fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD);
+  GSize battery_size = graphics_text_layout_get_content_size(
+      "+100%", label_font, GRect(0, 0, 200, 100),
+      GTextOverflowModeWordWrap, GTextAlignmentLeft);
+  int16_t battery_w = battery_size.w + 2;
+  int16_t label_h = battery_size.h;
 
-  // Battery: top-left, vertically centered in row 1
+  // Battery and day share the same top y
+  int16_t label_y = top_pad + (row_h - label_h) / 2;
+
   s_battery_layer = text_layer_create(
-      GRect(w / 4 - battery_w / 2, top_pad + (row_h - 28) / 2, battery_w, 28));
-  text_layer_set_text_alignment(s_battery_layer, GTextAlignmentCenter);
+      GRect(w / 2 - battery_w - 5, label_y, battery_w, label_h));
+  text_layer_set_text_alignment(s_battery_layer, GTextAlignmentRight);
   text_layer_set_background_color(s_battery_layer, GColorClear);
   text_layer_set_text_color(s_battery_layer, PBL_IF_COLOR_ELSE(GColorLightGray, GColorWhite));  // overridden by prv_update_battery
-  text_layer_set_font(s_battery_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+  text_layer_set_font(s_battery_layer, label_font);
   layer_add_child(root, text_layer_get_layer(s_battery_layer));
 
-  // Day of week: right side of row 1
-  s_day_layer = text_layer_create(GRect(battery_w, top_pad, w - battery_w, row_h));
-  text_layer_set_text_alignment(s_day_layer, GTextAlignmentCenter);
+  // Day of week: right side of row 1, top-aligned with battery layer
+  s_day_layer = text_layer_create(GRect(w / 2 + 5, label_y, w - (w / 2 + 5), label_h));
+  text_layer_set_text_alignment(s_day_layer, GTextAlignmentLeft);
   text_layer_set_background_color(s_day_layer, GColorClear);
   text_layer_set_text_color(s_day_layer, GColorWhite);
-  text_layer_set_font(s_day_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  text_layer_set_font(s_day_layer, label_font);
   layer_add_child(root, text_layer_get_layer(s_day_layer));
 
   // MMM DD: full width, row 2
@@ -120,13 +128,17 @@ static void prv_window_load(Window *window) {
   layer_add_child(root, s_separator_layer);
 
   // Bottom half: 24-hour time "HH:MM"
-  int16_t time_h = 54;
+  GFont time_font = fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49);
+  GSize time_size = graphics_text_layout_get_content_size(
+      "00:00", time_font, GRect(0, 0, w, 200),
+      GTextOverflowModeWordWrap, GTextAlignmentLeft);
+  int16_t time_h = time_size.h + 2;
   int16_t time_y = mid + (mid - time_h) / 4;
   s_time_layer = text_layer_create(GRect(0, time_y, w, time_h));
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorWhite);
-  text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
+  text_layer_set_font(s_time_layer, time_font);
   layer_add_child(root, text_layer_get_layer(s_time_layer));
 
   time_t now = time(NULL);
