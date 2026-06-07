@@ -1,7 +1,7 @@
 {
   "name": "ReadyToRead",
   "version": "1.2.0",
-  "author": "Pebble Technology",
+  "author": "ringmaster-dev",
   "private": true,
   "dependencies": {},
   "keywords": [
@@ -9,7 +9,7 @@
   ],
   "pebble": {
     "sdkVersion": "3",
-    "uuid": "f15dcfc2-df43-456c-abb0-8657e6733bcf",
+    "uuid": "9b45a653-903d-457d-b19b-374ffbdc63f6",
     "enableMultiJS": true,
     "displayName": "ReadyToRead",
     "watchapp": {

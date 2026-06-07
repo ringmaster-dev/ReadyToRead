@@ -1,4 +1,4 @@
-// Copyright [2015] Pebble Technology
+// Copyright [2026] ringmaster-dev
 
 #include <pebble.h>
 
