@@ -1,6 +1,6 @@
 {
   "name": "ReadyToRead",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "author": "ringmaster-dev",
   "private": true,
   "dependencies": {},
@@ -14,6 +14,16 @@
     "displayName": "ReadyToRead",
     "watchapp": {
       "watchface": true
+    },
+    "resources": {
+      "media": [
+        {
+          "menuIcon": true,
+          "type": "png",
+          "name": "IMAGE_MENU_ICON",
+          "file": "images/icon.png"
+        }
+      ]
     },
     "targetPlatforms": [
       "aplite",
