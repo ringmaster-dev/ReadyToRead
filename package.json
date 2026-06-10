@@ -1,7 +1,7 @@
 {
   "name": "ReadyToRead",
   "version": "1.0.0",
-  "author": "ringmaster-dev",
+  "author": "ringmaster.dev",
   "private": true,
   "dependencies": {},
   "keywords": [
@@ -12,6 +12,8 @@
     "uuid": "9b45a653-903d-457d-b19b-374ffbdc63f6",
     "enableMultiJS": true,
     "displayName": "ReadyToRead",
+    "companyName": "ringmaster.dev",
+    "author": "ringmaster.dev",
     "watchapp": {
       "watchface": true
     },
